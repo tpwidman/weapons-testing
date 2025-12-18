@@ -3,8 +3,9 @@
  * Reusable weapon mechanics that can be applied to any weapon
  */
 
-import { AttackContext, AttackResult, BleedMechanic } from '../core/types';
+import { AttackContext, AttackResult } from '../core/types';
 import { DiceEngine } from '../core/dice';
+import { DEFAULT_HEMORRHAGE_CONFIG, DEFAULT_BLEED_THRESHOLDS, TargetSize } from '../combat/status-effects/bleed/types';
 
 /**
  * Base weapon feature interface
@@ -22,16 +23,12 @@ export interface WeaponFeature {
  */
 export class HemorrhageFeature implements WeaponFeature {
   name = 'Hemorrhage';
-  
-  private hemorrhageCounter: number = 0;
-  private bleedMechanic: BleedMechanic;
-  private dice: DiceEngine;
-  private baseBleedDamageDieCount: number | undefined;
 
-  constructor(bleedMechanic: BleedMechanic, diceEngine: DiceEngine, baseBleedDamageDieCount?: number) {
-    this.bleedMechanic = bleedMechanic;
+  private hemorrhageCounter: number = 0;
+  private dice: DiceEngine;
+
+  constructor(diceEngine: DiceEngine) {
     this.dice = diceEngine;
-    this.baseBleedDamageDieCount = baseBleedDamageDieCount;
   }
 
   /**
@@ -116,8 +113,8 @@ export class HemorrhageFeature implements WeaponFeature {
    * Check if hemorrhage threshold is reached
    */
   checkHemorrhageTrigger(creatureSize: string): boolean {
-    const { thresholds } = this.bleedMechanic.parameters;
-    const threshold = thresholds[creatureSize.toLowerCase() as keyof typeof thresholds];
+    const targetSize = creatureSize.toLowerCase() as TargetSize;
+    const threshold = DEFAULT_BLEED_THRESHOLDS[targetSize];
     
     if (threshold === undefined) {
       throw new Error(`Unknown creature size: ${creatureSize}`);
@@ -127,19 +124,10 @@ export class HemorrhageFeature implements WeaponFeature {
   }
 
   /**
-   * Roll hemorrhage damage
+   * Roll hemorrhage damage using status effect formula: (baseDiceCount + proficiencyBonus)d6
    */
   rollHemorrhageDamage(proficiencyBonus: number): number {
-    // Check if weapon has baseBleedDamageDieCount property
-    const baseBleedDice = this.baseBleedDamageDieCount;
-    if (baseBleedDice !== undefined) {
-      // Use the configurable die count - simple and clean
-      const rolls = this.dice.rollMultiple(baseBleedDice, 'd6');
-      return rolls.reduce((sum, roll) => sum + roll, 0);
-    }
-    
-    // Fall back to proficiency bonus calculation (3 + proficiency_bonus)d6
-    const diceCount = 3 + proficiencyBonus;
+    const diceCount = DEFAULT_HEMORRHAGE_CONFIG.baseDiceCount + proficiencyBonus;
     const rolls = this.dice.rollMultiple(diceCount, 'd6');
     return rolls.reduce((sum, roll) => sum + roll, 0);
   }
@@ -149,7 +137,8 @@ export class HemorrhageFeature implements WeaponFeature {
    */
   private isTargetBleedImmune(context: AttackContext): boolean {
     // Check explicit bleed immunity flag
-    if ((context as any).bleedImmunity) {
+    const contextWithImmunity = context as AttackContext & { bleedImmunity?: boolean };
+    if (contextWithImmunity.bleedImmunity) {
       return true;
     }
 

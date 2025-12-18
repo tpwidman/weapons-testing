@@ -3,7 +3,7 @@
  * Handles weapon loading, damage calculation, and special mechanics
  */
 
-import { WeaponDefinition, BleedMechanic, AttackContext, AttackResult } from '../core/types';
+import { WeaponDefinition, AttackContext, AttackResult } from '../core/types';
 import { DiceEngine } from '../core/dice';
 import { WeaponFeature, HemorrhageFeature } from './weapon-features';
 import * as fs from 'fs';
@@ -52,9 +52,7 @@ export class Weapon {
     for (const mechanic of this.definition.specialMechanics) {
       if (mechanic.type === 'bleed') {
         const hemorrhageFeature = new HemorrhageFeature(
-          mechanic as BleedMechanic, 
-          this.dice,
-          this.definition.baseBleedDamageDieCount
+          this.dice
         );
         this.features.push(hemorrhageFeature);
       }

@@ -101,9 +101,9 @@ describe('StatisticalAnalyzer', () => {
 
     test('calculates hemorrhage statistics when present', () => {
       const results = createMockCombatResultsWithHemorrhage([
-        { damage: 20, hemorrhageTriggers: 1, hemorrhageDamage: 15 },
-        { damage: 30, hemorrhageTriggers: 2, hemorrhageDamage: 12 },
-        { damage: 25, hemorrhageTriggers: 0, hemorrhageDamage: 0 }
+        { damage: 20, specialMechanicTriggers: 1, hemorrhageDamage: 15 },
+        { damage: 30, specialMechanicTriggers: 2, hemorrhageDamage: 12 },
+        { damage: 25, specialMechanicTriggers: 0, hemorrhageDamage: 0 }
       ], mockScenario);
       
       const analysis = analyzer.analyze(results);
@@ -173,9 +173,9 @@ describe('StatisticalAnalyzer', () => {
   describe('generateSummaryReport', () => {
     test('generates comprehensive summary report', () => {
       const results = createMockCombatResultsWithHemorrhage([
-        { damage: 20, hemorrhageTriggers: 1, hemorrhageDamage: 15 },
-        { damage: 30, hemorrhageTriggers: 0, hemorrhageDamage: 0 },
-        { damage: 25, hemorrhageTriggers: 1, hemorrhageDamage: 12 }
+        { damage: 20, specialMechanicTriggers: 1, hemorrhageDamage: 15 },
+        { damage: 30, specialMechanicTriggers: 0, hemorrhageDamage: 0 },
+        { damage: 25, specialMechanicTriggers: 1, hemorrhageDamage: 12 }
       ], mockScenario);
       
       const analysis = analyzer.analyze(results);
@@ -214,34 +214,46 @@ function createMockCombatResults(damages: number[], scenario: CombatScenario, in
     rounds: createMockRounds(damage, scenario.rounds, includeHemorrhage),
     totalDamage: damage,
     averageDamagePerRound: damage / scenario.rounds,
-    hemorrhageTriggers: includeHemorrhage ? (index % 2) : 0, // Alternate hemorrhage triggers
+    specialMechanicTriggers: includeHemorrhage ? (index % 2) : 0, // Alternate hemorrhage triggers
     totalTempHP: 0,
     hitRate: 0.8,
     criticalRate: 0.05,
     totalWastedDamage: 0,
     missStreaks: [],
-    targetSwitches: 0
+    targetSwitches: 0,
+    advantageStrategy: {
+      totalRounds: scenario.rounds,
+      rate: scenario.advantageRate,
+      advantageRounds: [],
+      advantageCount: 0
+    }
   }));
 }
 
 function createMockCombatResultsWithHemorrhage(
-  configs: Array<{ damage: number; hemorrhageTriggers: number; hemorrhageDamage: number }>,
+  configs: Array<{ damage: number; specialMechanicTriggers: number; hemorrhageDamage: number }>,
   scenario: CombatScenario
 ): CombatResult[] {
   return configs.map(config => ({
     character: 'Test Character',
     weapon: 'Test Weapon',
     scenario,
-    rounds: createMockRoundsWithHemorrhage(config.damage, config.hemorrhageTriggers, config.hemorrhageDamage, scenario.rounds),
+    rounds: createMockRoundsWithHemorrhage(config.damage, config.specialMechanicTriggers, config.hemorrhageDamage, scenario.rounds),
     totalDamage: config.damage,
     averageDamagePerRound: config.damage / scenario.rounds,
-    hemorrhageTriggers: config.hemorrhageTriggers,
+    specialMechanicTriggers: config.specialMechanicTriggers,
     totalTempHP: 0,
     hitRate: 0.8,
     criticalRate: 0.05,
     totalWastedDamage: 0,
     missStreaks: [],
-    targetSwitches: 0
+    targetSwitches: 0,
+    advantageStrategy: {
+      totalRounds: scenario.rounds,
+      rate: scenario.advantageRate,
+      advantageRounds: [],
+      advantageCount: 0
+    }
   }));
 }
 
@@ -256,13 +268,19 @@ function createMockCombatResultsWithTurnsToTrigger(
     rounds: createMockRoundsWithTriggerTiming(config.damage, config.turnsToFirstTrigger, scenario.rounds),
     totalDamage: config.damage,
     averageDamagePerRound: config.damage / scenario.rounds,
-    hemorrhageTriggers: config.turnsToFirstTrigger ? 1 : 0,
+    specialMechanicTriggers: config.turnsToFirstTrigger ? 1 : 0,
     totalTempHP: 0,
     hitRate: 0.8,
     criticalRate: 0.05,
     totalWastedDamage: 0,
     missStreaks: [],
-    targetSwitches: 0
+    targetSwitches: 0,
+    advantageStrategy: {
+      totalRounds: scenario.rounds,
+      rate: scenario.advantageRate,
+      advantageRounds: [],
+      advantageCount: 0
+    }
   }));
 }
 
@@ -273,28 +291,28 @@ function createMockRounds(totalDamage: number, roundCount: number, includeHemorr
     round: index + 1,
     attacks: [createMockAttack(damagePerRound, includeHemorrhage && index === 0)],
     totalDamage: damagePerRound,
-    hemorrhageTriggered: includeHemorrhage && index === 0,
+    specialMechanicsTriggered: includeHemorrhage && index === 0,
     tempHPGained: 0
   }));
 }
 
 function createMockRoundsWithHemorrhage(
   totalDamage: number, 
-  hemorrhageTriggers: number, 
+  specialMechanicTriggers: number, 
   hemorrhageDamage: number, 
   roundCount: number
 ): RoundResult[] {
   const damagePerRound = totalDamage / roundCount;
   
   return Array.from({ length: roundCount }, (_, index) => {
-    const hasHemorrhage = index < hemorrhageTriggers;
-    const hemorrhageDamageThisRound = hasHemorrhage ? hemorrhageDamage / hemorrhageTriggers : 0;
+    const hasHemorrhage = index < specialMechanicTriggers;
+    const hemorrhageDamageThisRound = hasHemorrhage ? hemorrhageDamage / specialMechanicTriggers : 0;
     
     return {
       round: index + 1,
       attacks: [createMockAttack(damagePerRound, hasHemorrhage, hemorrhageDamageThisRound)],
       totalDamage: damagePerRound,
-      hemorrhageTriggered: hasHemorrhage,
+      specialMechanicsTriggered: hasHemorrhage,
       tempHPGained: 0
     };
   });
@@ -315,7 +333,7 @@ function createMockRoundsWithTriggerTiming(
       round: roundNumber,
       attacks: [createMockAttack(damagePerRound, hasHemorrhage)],
       totalDamage: damagePerRound,
-      hemorrhageTriggered: hasHemorrhage,
+      specialMechanicsTriggered: hasHemorrhage,
       tempHPGained: 0
     };
   });

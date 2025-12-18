@@ -112,14 +112,14 @@ class ReportRunner {
       displayName: 'Sanguine Dagger (6d6)',
       hemorrhageDice: '6d6',
       source: 'file',
-      filePath: 'src/weapons/data/sanguine-dagger/sanguine-dagger.json'
+      filePath: 'data/weapons/sanguine-dagger/sanguine-dagger.json'
     },
     {
       name: 'control_dagger',
       displayName: '+1 Dagger (Control)',
       hemorrhageDice: 'None',
       source: 'file',
-      filePath: 'src/weapons/data/baseline-rapier-plus-1.json'
+      filePath: 'data/weapons/baseline-rapier-plus-1.json'
     }
   ];
 
@@ -132,7 +132,7 @@ class ReportRunner {
 
     try {
       // Load character
-      const character = CharacterBuilder.loadFromFile('src/characters/data/level-5-swashbuckler-rogue.json');
+      const character = CharacterBuilder.loadFromFile('data/characters/level-5-swashbuckler-rogue.json');
       console.log(`📋 Character: ${character.getName()} (Level ${character.getLevel()})`);
 
       // Load weapons
@@ -180,7 +180,7 @@ class ReportRunner {
   async runSpecificReport(reportName: string): Promise<void> {
     console.log(`🎯 Running specific report: ${reportName}\n`);
 
-    const character = CharacterBuilder.loadFromFile('src/characters/data/level-5-swashbuckler-rogue.json');
+    const character = CharacterBuilder.loadFromFile('data/characters/level-5-swashbuckler-rogue.json');
     const weapons = await this.loadWeapons();
 
     switch (reportName.toLowerCase()) {

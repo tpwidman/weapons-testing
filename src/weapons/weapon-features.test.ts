@@ -5,38 +5,16 @@
 
 import { HemorrhageFeature } from '../weapons/weapon-features';
 import { DiceEngine } from '../core/dice';
-import { BleedMechanic, AttackContext, AttackResult } from '../core/types';
+import { AttackContext, AttackResult } from '../core/types';
 
 describe('Weapon Features', () => {
   let diceEngine: DiceEngine;
-  let bleedMechanic: BleedMechanic;
+
   let hemorrhageFeature: HemorrhageFeature;
 
   beforeEach(() => {
     diceEngine = new DiceEngine(12345);
-    
-    bleedMechanic = {
-      name: 'Hemorrhage',
-      type: 'bleed',
-      parameters: {
-        counterDice: {
-          normal: '1d4',
-          advantage: '1d8',
-          critical: true
-        },
-        thresholds: {
-          tiny: 12,
-          small: 12,
-          medium: 12,
-          large: 16,
-          huge: 20,
-          gargantuan: 24
-        },
-        hemorrhageDamage: '6d6'
-      }
-    };
-    
-    hemorrhageFeature = new HemorrhageFeature(bleedMechanic, diceEngine, 6);
+    hemorrhageFeature = new HemorrhageFeature(diceEngine);
   });
 
   test('should build bleed counter correctly', () => {
@@ -69,8 +47,8 @@ describe('Weapon Features', () => {
 
   test('should use configurable bleed damage die count', () => {
     // Force hemorrhage by building counter to threshold
-    const feature = new HemorrhageFeature(bleedMechanic, diceEngine, 3); // 3d6 instead of 6d6
-    
+    const feature = new HemorrhageFeature(diceEngine);
+
     // Mock context and result
     const mockContext: AttackContext = {
       attacker: { getProficiencyBonus: () => 3 } as any,

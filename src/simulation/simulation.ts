@@ -454,8 +454,8 @@ export class SimulationConfigBuilder {
         advantageRate: 0.3,
         attacksPerRound: 1
       }])
-      .characters(['src/characters/data/level-5-swashbuckler-rogue.json'])
-      .weapons(['src/weapons/data/sanguine-messer/sanguine-messer.json'])
+      .characters(['data/characters/level-5-swashbuckler-rogue.json'])
+      .weapons(['data/weapons/sanguine-messer/sanguine-messer.json'])
       .build();
   }
 }

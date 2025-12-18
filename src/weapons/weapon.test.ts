@@ -16,7 +16,7 @@ describe('Weapon System', () => {
     diceEngine = new DiceEngine(12345);
     
     // Load test character
-    testCharacter = CharacterBuilder.loadFromFile('src/characters/data/level-5-swashbuckler-rogue.json');
+    testCharacter = CharacterBuilder.loadFromFile('data/characters/level-5-swashbuckler-rogue.json');
   });
 
   describe('Base Weapon Class', () => {
@@ -76,7 +76,7 @@ describe('Weapon System', () => {
     let sanguineMesser: WeaponWithHemorrhage;
 
     beforeEach(() => {
-      const weapon = WeaponBuilder.loadFromFile('src/weapons/data/sanguine-messer/sanguine-messer.json', diceEngine);
+      const weapon = WeaponBuilder.loadFromFile('data/weapons/sanguine-messer/sanguine-messer.json', diceEngine);
       if (hasHemorrhageFeature(weapon)) {
         sanguineMesser = weapon;
       } else {
@@ -328,7 +328,7 @@ describe('Weapon System', () => {
 
   describe('Special Mechanics Integration', () => {
     test('applies hemorrhage mechanics in combat context', () => {
-      const weapon = WeaponBuilder.loadFromFile('src/weapons/data/sanguine-messer/sanguine-messer.json', diceEngine);
+      const weapon = WeaponBuilder.loadFromFile('data/weapons/sanguine-messer/sanguine-messer.json', diceEngine);
       if (!hasHemorrhageFeature(weapon)) {
         throw new Error('Sanguine Messer should have hemorrhage feature');
       }

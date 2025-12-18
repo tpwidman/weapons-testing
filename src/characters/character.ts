@@ -4,14 +4,21 @@
  */
 
 import { CharacterTemplate, ClassFeature, DamageModifier } from '../core/types';
+import { createCharacterClass } from './character-class-factory';
+import { BaseCharacterClass } from './base-character-class';
 import * as fs from 'fs';
 import * as path from 'path';
 
+// Import character classes to trigger auto-registration
+import './classes/rogue/class';
+
 export class Character {
   private template: CharacterTemplate;
+  private characterClass: BaseCharacterClass | null = null;
 
   constructor(template: CharacterTemplate) {
     this.template = template;
+    this.characterClass = createCharacterClass(template.class);
   }
 
   /**
@@ -38,7 +45,7 @@ export class Character {
    * Get sources of advantage for attacks
    */
   getAdvantageSources(): ClassFeature[] {
-    return this.template.classFeatures.filter(
+    return this.getClassFeatures().filter(
       feature => feature.effect.type === 'advantage_source'
     );
   }
@@ -95,6 +102,23 @@ export class Character {
    * Get all class features
    */
   getClassFeatures(): ClassFeature[] {
+    // If we have a character class implementation, derive features from it
+    if (this.characterClass) {
+      const derivedFeatures = this.characterClass.getFeatures(this.template.level);
+      // Convert to the format expected by the existing system
+      return derivedFeatures.map(feature => ({
+        name: feature.name,
+        type: feature.type === 'active' && feature.trigger ? 'triggered' : 'passive',
+        trigger: feature.trigger,
+        effect: {
+          type: feature.effectType || 'hit_bonus', // Default to hit_bonus for generic features
+          diceExpression: feature.diceExpression,
+          description: feature.description
+        }
+      } as ClassFeature));
+    }
+    
+    // Fallback to template features if no class implementation
     return this.template.classFeatures;
   }
 
@@ -102,7 +126,7 @@ export class Character {
    * Get class features that trigger on specific events
    */
   getTriggeredFeatures(trigger: 'hit' | 'crit' | 'turn' | 'hemorrhage'): ClassFeature[] {
-    return this.template.classFeatures.filter(
+    return this.getClassFeatures().filter(
       feature => feature.type === 'triggered' && feature.trigger === trigger
     );
   }
@@ -119,6 +143,23 @@ export class Character {
    */
   getTemplate(): CharacterTemplate {
     return { ...this.template };
+  }
+
+  /**
+   * Get class-specific data
+   */
+  getClassSpecificData(): Record<string, any> {
+    if (this.characterClass) {
+      return this.characterClass.getClassSpecificData(this.template.level);
+    }
+    return {};
+  }
+
+  /**
+   * Get the character class instance
+   */
+  getCharacterClass(): BaseCharacterClass | null {
+    return this.characterClass;
   }
 }
 

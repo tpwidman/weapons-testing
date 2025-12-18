@@ -98,20 +98,20 @@ async function generateUnifiedHemorrhageComparison() {
       displayName: 'Sanguine Dagger (6d6)',
       hemorrhageDice: '6d6',
       weaponSource: 'file',
-      filePath: 'src/weapons/data/sanguine-dagger/sanguine-dagger.json'
+      filePath: 'data/weapons/sanguine-dagger/sanguine-dagger.json'
     },
     {
       name: 'control_dagger',
       displayName: '+1 Dagger (Control)',
       hemorrhageDice: 'None',
       weaponSource: 'file',
-      filePath: 'src/weapons/data/baseline-rapier-plus-1.json'
+      filePath: 'data/weapons/baseline-rapier-plus-1.json'
     }
   ];
 
   try {
     // Load character
-    const character = CharacterBuilder.loadFromFile('src/characters/data/level-5-swashbuckler-rogue.json');
+    const character = CharacterBuilder.loadFromFile('data/characters/level-5-swashbuckler-rogue.json');
     console.log(`Character: ${character.getName()} (Level ${character.getLevel()})`);
     console.log(`Sneak Attack: ${Math.ceil(character.getLevel() / 2)}d6 (auto-calculated from level)`);
     

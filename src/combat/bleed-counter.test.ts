@@ -61,7 +61,7 @@ describe('Bleed Counter Mechanics', () => {
     character = CharacterBuilder.fromTemplate(characterTemplate);
     
     // Load Sanguine Dagger from file
-    const weapon = WeaponBuilder.loadFromFile('src/weapons/data/sanguine-dagger/sanguine-dagger.json', diceEngine);
+    const weapon = WeaponBuilder.loadFromFile('data/weapons/sanguine-dagger/sanguine-dagger.json', diceEngine);
     if (hasHemorrhageFeature(weapon)) {
       sanguineDagger = weapon;
     } else {
@@ -165,10 +165,10 @@ describe('Bleed Counter Mechanics', () => {
     console.log(`Medium creature hemorrhage threshold: ${threshold}`);
     
     let attackCount = 0;
-    let hemorrhageTriggered = false;
+    let specialMechanicsTriggered = false;
     
     // Keep attacking until hemorrhage triggers
-    while (!hemorrhageTriggered && attackCount < 20) {
+    while (!specialMechanicsTriggered && attackCount < 20) {
       attackCount++;
       
       const context: AttackContext = {
@@ -192,7 +192,7 @@ describe('Bleed Counter Mechanics', () => {
         console.log(`Attack ${attackCount}: Counter ${counterBeforeAttack} -> ${counterAfterAttack} (+${bleedCounterEffect?.damage || 0})`);
         
         if (hemorrhageEffect) {
-          hemorrhageTriggered = true;
+          specialMechanicsTriggered = true;
           console.log(`  -> HEMORRHAGE! ${hemorrhageEffect.damage} damage, counter reset to ${sanguineDagger.getHemorrhageCounter()}`);
           
           // Verify hemorrhage damage is 6d6
@@ -205,7 +205,7 @@ describe('Bleed Counter Mechanics', () => {
       }
     }
     
-    expect(hemorrhageTriggered).toBe(true);
+    expect(specialMechanicsTriggered).toBe(true);
     expect(attackCount).toBeLessThan(20); // Should trigger within reasonable attempts
   });
 
@@ -228,10 +228,10 @@ describe('Bleed Counter Mechanics', () => {
       console.log(`\n${size.toUpperCase()} (threshold ${threshold}):`);
       
       let attackCount = 0;
-      let hemorrhageTriggered = false;
+      let specialMechanicsTriggered = false;
       
       // Keep attacking until hemorrhage triggers or we hit max attempts
-      while (!hemorrhageTriggered && attackCount < 15) {
+      while (!specialMechanicsTriggered && attackCount < 15) {
         attackCount++;
         
         const context: AttackContext = {
@@ -254,7 +254,7 @@ describe('Bleed Counter Mechanics', () => {
           console.log(`  Attack ${attackCount}: Counter ${counterBeforeAttack} -> ${sanguineDagger.getHemorrhageCounter()} (+${bleedCounterEffect?.damage || 0})`);
           
           if (hemorrhageEffect) {
-            hemorrhageTriggered = true;
+            specialMechanicsTriggered = true;
             console.log(`    -> HEMORRHAGE! ${hemorrhageEffect.damage} damage after ${attackCount} attacks`);
             
             // Verify hemorrhage damage is 6d6
@@ -269,7 +269,7 @@ describe('Bleed Counter Mechanics', () => {
       }
       
       // Should have triggered hemorrhage within reasonable attempts
-      expect(hemorrhageTriggered).toBe(true);
+      expect(specialMechanicsTriggered).toBe(true);
       expect(attackCount).toBeLessThan(15);
     });
   });
@@ -450,12 +450,12 @@ describe('Bleed Counter Mechanics', () => {
     const threshold = 12; // Medium creature threshold
     let dieRolls: number[] = [];
     let attackCount = 0;
-    let hemorrhageTriggered = false;
+    let specialMechanicsTriggered = false;
     
     // Reset counter
     sanguineDagger.resetCounter();
     
-    while (!hemorrhageTriggered && attackCount < 20) {
+    while (!specialMechanicsTriggered && attackCount < 20) {
       attackCount++;
       
       const context: AttackContext = {
@@ -483,7 +483,7 @@ describe('Bleed Counter Mechanics', () => {
           console.log(`${rollsDisplay} / ${threshold}`);
           
           if (hemorrhageEffect) {
-            hemorrhageTriggered = true;
+            specialMechanicsTriggered = true;
             console.log(`BLEED: ${currentTotal}/${threshold}`);
             
             // Verify the math
@@ -500,7 +500,7 @@ describe('Bleed Counter Mechanics', () => {
       }
     }
     
-    expect(hemorrhageTriggered).toBe(true);
+    expect(specialMechanicsTriggered).toBe(true);
     expect(attackCount).toBeLessThan(20);
     
     // Verify all die rolls are within expected range
@@ -511,99 +511,7 @@ describe('Bleed Counter Mechanics', () => {
     });
   });
 
-  test('should use configurable baseBleedDamageDieCount for hemorrhage damage', () => {
-    console.log('\n=== CONFIGURABLE BLEED DAMAGE ===');
-    
-    // Create a test weapon with different bleed damage die counts
-    const testWeaponDef = {
-      name: "Test Sanguine Dagger",
-      rarity: "rare" as const,
-      baseDamage: "1d4",
-      damageType: "piercing",
-      properties: ["finesse", "light", "thrown"],
-      magicalBonus: 1,
-      baseBleedDamageDieCount: 3, // 3d6 instead of 6d6
-      specialMechanics: [
-        {
-          name: "Hemorrhage",
-          type: "bleed" as const,
-          parameters: {
-            counterDice: {
-              normal: "1d4",
-              advantage: "1d8",
-              critical: true
-            },
-            thresholds: {
-              tiny: 12,
-              small: 12,
-              medium: 12,
-              large: 16,
-              huge: 20,
-              gargantuan: 24
-            },
-            hemorrhageDamage: "6d6" // This should be overridden by baseBleedDamageDieCount
-          }
-        }
-      ]
-    };
-    
-    const testDagger = WeaponBuilder.fromDefinition(testWeaponDef, diceEngine);
-    
-    // Build counter by performing attacks until we get close to threshold
-    testDagger.resetCounter();
-    let attempts = 0;
-    while (testDagger.getHemorrhageCounter() < 8 && attempts < 10) {
-      const context: AttackContext = {
-        attacker: character,
-        weapon: testDagger,
-        hasAdvantage: true,
-        targetAC: 5,
-        targetSize: 'medium',
-        round: 1,
-        turn: attempts + 1
-      };
 
-      const result = combatResolver.resolveAttack(context);
-      if (!result.hit || result.specialEffects?.find(effect => effect.name === 'Hemorrhage')) {
-        break; // Stop if we miss or trigger hemorrhage early
-      }
-      attempts++;
-    }
-    
-    console.log(`Counter built to ${testDagger.getHemorrhageCounter()} after ${attempts} attempts`);
-    
-    // Now perform an attack that should trigger hemorrhage
-    const context: AttackContext = {
-      attacker: character,
-      weapon: testDagger,
-      hasAdvantage: true,
-      targetAC: 5,
-      targetSize: 'medium',
-      round: 1,
-      turn: attempts + 1
-    };
-
-    const result = combatResolver.resolveAttack(context);
-    
-    if (result.hit) {
-      const hemorrhageEffect = result.specialEffects?.find(effect => effect.name === 'Hemorrhage');
-      
-      if (hemorrhageEffect) {
-        console.log(`Hemorrhage damage with baseBleedDamageDieCount=3: ${hemorrhageEffect.damage}`);
-        
-        // Should be 3d6 (3-18) since baseBleedDamageDieCount=3
-        expect(hemorrhageEffect.damage).toBeGreaterThanOrEqual(3); // 3d6 min
-        expect(hemorrhageEffect.damage).toBeLessThanOrEqual(18); // 3d6 max
-        
-        console.log(`✓ Configurable bleed damage working: ${hemorrhageEffect.damage} damage from 3d6`);
-      } else {
-        console.log('No hemorrhage triggered - counter may not have reached threshold');
-        console.log(`Final counter: ${testDagger.getHemorrhageCounter()}`);
-      }
-    } else {
-      console.log('Attack missed');
-    }
-  });
 
   test('should track hemorrhage frequency in combat simulation', () => {
     console.log('\n=== HEMORRHAGE FREQUENCY IN COMBAT ===');
@@ -621,23 +529,23 @@ describe('Bleed Counter Mechanics', () => {
     console.log(`Combat Results:`);
     console.log(`  Total Attacks: ${result.rounds.length * scenario.attacksPerRound}`);
     console.log(`  Total Hits: ${Math.round(result.hitRate * result.rounds.length * scenario.attacksPerRound)}`);
-    console.log(`  Hemorrhage Triggers: ${result.hemorrhageTriggers}`);
+    console.log(`  Hemorrhage Triggers: ${result.specialMechanicTriggers}`);
     console.log(`  Hit Rate: ${(result.hitRate * 100).toFixed(1)}%`);
-    console.log(`  Hemorrhage Rate: ${result.hemorrhageTriggers > 0 ? (result.hemorrhageTriggers / (result.hitRate * result.rounds.length * scenario.attacksPerRound) * 100).toFixed(1) : 0}%`);
+    console.log(`  Hemorrhage Rate: ${result.specialMechanicTriggers > 0 ? (result.specialMechanicTriggers / (result.hitRate * result.rounds.length * scenario.attacksPerRound) * 100).toFixed(1) : 0}%`);
     console.log(`  Average Damage: ${result.averageDamagePerRound.toFixed(1)} per round`);
     
     // Verify hemorrhage triggered at least once in 10 rounds with advantage
-    expect(result.hemorrhageTriggers).toBeGreaterThan(0);
+    expect(result.specialMechanicTriggers).toBeGreaterThan(0);
     
     // Check individual rounds for hemorrhage effects
     let roundsWithHemorrhage = 0;
     result.rounds.forEach((round, index) => {
-      if (round.hemorrhageTriggered) {
+      if (round.specialMechanicsTriggered) {
         roundsWithHemorrhage++;
         console.log(`  Round ${index + 1}: Hemorrhage triggered, ${round.totalDamage} total damage`);
       }
     });
     
-    expect(roundsWithHemorrhage).toBe(result.hemorrhageTriggers);
+    expect(roundsWithHemorrhage).toBe(result.specialMechanicTriggers);
   });
 });

@@ -101,7 +101,6 @@ export interface WeaponDefinition {
   damageType: string;
   properties: string[];
   magicalBonus: number;
-  baseBleedDamageDieCount?: number; // Number of d6 dice for hemorrhage damage (e.g., 3 for 3d6)
   specialMechanics?: SpecialMechanic[];
 }
 
@@ -161,6 +160,7 @@ export interface AttackResult {
   hit: boolean;
   critical: boolean;
   baseDamage: number;
+  critDamage?: number; // Extra damage from critical hit (calculated by weapon, not assumed)
   bonusDamage: number;
   specialEffects: SpecialEffect[];
   totalDamage: number;
@@ -169,6 +169,7 @@ export interface AttackResult {
   tempHPGained?: number;
   wastedDamage?: number; // Damage that exceeded target HP (killing blow)
   targetSwitched?: boolean; // Whether target was switched this attack
+  round?: number; // Combat round number (for tracking)
 }
 
 export interface SpecialEffect {

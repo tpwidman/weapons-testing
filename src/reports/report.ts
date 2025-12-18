@@ -476,7 +476,7 @@ Total Simulations: ${results.length}`;
       for (let i = 0; i < sampleSize; i++) {
         const combat = result.rawResults[i];
         if (combat) {
-          lines.push(`  Combat ${i + 1}: ${combat.totalDamage} damage, ${combat.hemorrhageTriggers} hemorrhage triggers`);
+          lines.push(`  Combat ${i + 1}: ${combat.totalDamage} damage, ${combat.specialMechanicTriggers} hemorrhage triggers`);
         }
       }
     }

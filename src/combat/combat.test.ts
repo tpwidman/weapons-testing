@@ -134,7 +134,7 @@ describe('CombatResolver', () => {
       const context: AttackContext = {
         attacker: character,
         weapon: weapon,
-        hasAdvantage: false,
+        hasAdvantage: true, // With 1.0 advantage rate, should always have advantage
         targetAC: 15,
         targetSize: 'medium',
         round: 1,

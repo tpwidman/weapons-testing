@@ -357,7 +357,7 @@ describe('SimulationConfigBuilder', () => {
     
     expect(config.iterations).toBe(1000);
     expect(config.scenarios).toHaveLength(1);
-    expect(config.characters).toEqual(['src/characters/data/level-5-swashbuckler-rogue.json']);
-    expect(config.weapons).toEqual(['src/weapons/data/sanguine-messer/sanguine-messer.json']);
+    expect(config.characters).toEqual(['data/characters/level-5-swashbuckler-rogue.json']);
+    expect(config.weapons).toEqual(['data/weapons/sanguine-messer/sanguine-messer.json']);
   });
 });

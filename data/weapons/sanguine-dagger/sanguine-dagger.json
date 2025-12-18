@@ -5,7 +5,6 @@
   "damageType": "piercing",
   "properties": ["finesse", "light", "thrown"],
   "magicalBonus": 1,
-  "baseBleedDamageDieCount": 6,
   "specialMechanics": [
     {
       "name": "Blood Sense",
@@ -19,21 +18,13 @@
       "name": "Hemorrhage",
       "type": "bleed",
       "parameters": {
-
-        "thresholds": {
-          "tiny": 12,
-          "small": 12,
-          "medium": 12,
-          "large": 16,
-          "huge": 20,
-          "gargantuan": 24
+        "counterDice": {
+          "normalHit": "1d4",
+          "advantageHit": "1d8",
+          "criticalHit": "2d4",
+          "criticalAdvantageHit": "2d8"
         },
-
-        "saveEffect": {
-          "type": "constitution",
-          "dc": "8 + proficiency_bonus + ability_modifier",
-          "failureEffect": "slowed until end of next turn"
-        }
+        "description": "Each hit adds to a bleed counter. Roll 1d4 on normal hit, 1d8 with advantage, 2d4 on crit, or 2d8 on crit with advantage."
       }
     },
     {

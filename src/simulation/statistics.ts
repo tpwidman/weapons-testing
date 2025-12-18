@@ -143,13 +143,13 @@ export class StatisticalAnalyzer {
    */
   private calculateHemorrhageStatistics(results: CombatResult[]): HemorrhageStatistics | null {
     // Check if any results have hemorrhage mechanics
-    const hasHemorrhage = results.some(result => result.hemorrhageTriggers > 0);
+    const hasHemorrhage = results.some(result => result.specialMechanicTriggers > 0);
     if (!hasHemorrhage) {
       return null;
     }
 
-    const totalTriggers = results.reduce((sum, result) => sum + result.hemorrhageTriggers, 0);
-    const combatsWithTriggers = results.filter(result => result.hemorrhageTriggers > 0).length;
+    const totalTriggers = results.reduce((sum, result) => sum + result.specialMechanicTriggers, 0);
+    const combatsWithTriggers = results.filter(result => result.specialMechanicTriggers > 0).length;
     
     // Calculate trigger frequency (triggers per combat)
     const triggerFrequency = totalTriggers / results.length;
@@ -167,7 +167,7 @@ export class StatisticalAnalyzer {
     const triggerDistribution = this.calculateTriggerDistribution(results);
     
     // Find maximum triggers in a single combat
-    const maxTriggersInSingleCombat = Math.max(...results.map(result => result.hemorrhageTriggers));
+    const maxTriggersInSingleCombat = Math.max(...results.map(result => result.specialMechanicTriggers));
 
     return {
       triggerFrequency,
@@ -236,7 +236,7 @@ export class StatisticalAnalyzer {
       
       for (let roundIndex = 0; roundIndex < result.rounds.length && !foundFirstTrigger; roundIndex++) {
         const round = result.rounds[roundIndex];
-        if (round && round.hemorrhageTriggered) {
+        if (round && round.specialMechanicsTriggered) {
           // Calculate turn number (round * attacks per round + attack within round)
           const turnNumber = (roundIndex * result.scenario.attacksPerRound) + 1;
           turnsToFirstTrigger.push(turnNumber);
@@ -285,7 +285,7 @@ export class StatisticalAnalyzer {
     const distribution = new Map<number, number>();
 
     for (const result of results) {
-      const triggerCount = result.hemorrhageTriggers;
+      const triggerCount = result.specialMechanicTriggers;
       const currentCount = distribution.get(triggerCount) || 0;
       distribution.set(triggerCount, currentCount + 1);
     }

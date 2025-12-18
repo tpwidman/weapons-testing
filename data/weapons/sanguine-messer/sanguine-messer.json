@@ -1,0 +1,39 @@
+{
+  "name": "Sanguine Messer",
+  "rarity": "very-rare",
+  "baseDamage": "1d8",
+  "damageType": "slashing",
+  "properties": ["finesse", "versatile"],
+  "magicalBonus": 1,
+  "specialMechanics": [
+    {
+      "name": "Blood Sense",
+      "type": "detection",
+      "parameters": {
+        "range": 30,
+        "description": "You sense the presence of living creatures with blood within 30 feet, even through walls (direction only, not exact location)"
+      }
+    },
+    {
+      "name": "Hemorrhage",
+      "type": "bleed",
+      "parameters": {
+        "counterDice": {
+          "normalHit": "1d4",
+          "advantageHit": "1d8",
+          "criticalHit": "2d4",
+          "criticalAdvantageHit": "2d8"
+        },
+        "description": "Each hit adds to a bleed counter. Roll 1d4 on normal hit, 1d8 with advantage, 2d4 on crit, or 2d8 on crit with advantage."
+      }
+    },
+    {
+      "name": "Counter Reset",
+      "type": "reset",
+      "parameters": {
+        "trigger": "no_attack_on_turn",
+        "description": "If you don't attack the tracked creature on your turn, the counter drops to 0. You can only track one creature at a time."
+      }
+    }
+  ]
+}
