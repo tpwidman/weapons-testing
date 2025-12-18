@@ -1,0 +1,62 @@
+{
+  "name": "Level 5 Rogue",
+  "level": 5,
+  "class": "Rogue",
+  "subclass": "Thief",
+  "abilityScores": {
+    "strength": 10,
+    "dexterity": 17,
+    "constitution": 14,
+    "intelligence": 12,
+    "wisdom": 13,
+    "charisma": 14
+  },
+  "proficiencyBonus": 3,
+  "classFeatures": [
+    {
+      "name": "Sneak Attack",
+      "type": "triggered",
+      "trigger": "hit",
+      "effect": {
+        "type": "damage",
+        "diceExpression": "3d6",
+        "condition": "advantage_or_flanking"
+      }
+    },
+    {
+      "name": "Cunning Action",
+      "type": "passive",
+      "effect": {
+        "type": "advantage_source",
+        "description": "Can Hide as bonus action to gain advantage on next attack"
+      }
+    }
+  ],
+  "attackModifiers": [
+    {
+      "name": "Dexterity",
+      "hitBonus": 3,
+      "critRange": 20
+    },
+    {
+      "name": "Proficiency",
+      "hitBonus": 3,
+      "critRange": 20
+    }
+  ],
+  "damageModifiers": [
+    {
+      "name": "Dexterity",
+      "damageBonus": 3,
+      "damageType": "piercing",
+      "trigger": "always"
+    },
+    {
+      "name": "Sneak Attack",
+      "damageBonus": 0,
+      "damageType": "piercing",
+      "trigger": "hit",
+      "diceExpression": "3d6"
+    }
+  ]
+}

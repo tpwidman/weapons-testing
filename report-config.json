@@ -1,0 +1,60 @@
+{
+  "simulation": {
+    "iterations": 1000,
+    "seed": 12345,
+    "scenarios": [
+      {
+        "name": "Standard Combat",
+        "rounds": 10,
+        "targetAC": 15,
+        "targetSize": "medium",
+        "advantageRate": 0.3,
+        "attacksPerRound": 1
+      },
+      {
+        "name": "High AC Combat",
+        "rounds": 10,
+        "targetAC": 18,
+        "targetSize": "medium",
+        "advantageRate": 0.3,
+        "attacksPerRound": 1
+      },
+      {
+        "name": "High Advantage Combat",
+        "rounds": 10,
+        "targetAC": 15,
+        "targetSize": "medium",
+        "advantageRate": 0.7,
+        "attacksPerRound": 1
+      }
+    ]
+  },
+  "entities": {
+    "characters": [
+      "entities/characters/level-5-swashbuckler-rogue.json"
+    ],
+    "weapons": [
+      "weapons/sanguine-dagger/sanguine-dagger.json"
+    ],
+    "baselines": [
+      "entities/weapons/baseline-rapier-plus-1.json"
+    ]
+  },
+  "report": {
+    "includeRawData": false,
+    "highlightThresholds": {
+      "significantDifference": 15,
+      "highVariance": 0.3,
+      "lowConsistency": 0.7
+    },
+    "exportFormats": ["console", "json", "csv"],
+    "colorOutput": true,
+    "outputDirectory": "reports"
+  },
+  "output": {
+    "console": true,
+    "saveToFile": true,
+    "filename": "weapon-analysis-report",
+    "formats": ["json", "csv"]
+  }
+}

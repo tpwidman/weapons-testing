@@ -1,0 +1,186 @@
+{
+  "metadata": {
+    "reportName": "hemorrhage-comparison-flat",
+    "generatedAt": "2025-12-17T06:44:26.786Z",
+    "totalSimulations": 3,
+    "totalIterations": 3000
+  },
+  "results": [
+    {
+      "characterName": "Level 5 Rogue",
+      "weaponName": "Sanguine Dagger (4d6)",
+      "scenario": {
+        "rounds": 10,
+        "targetAC": 15,
+        "targetSize": "medium",
+        "advantageRate": 0,
+        "attacksPerRound": 1
+      },
+      "iterations": 1000,
+      "seed": 12345,
+      "analysis": {
+        "damageStats": {
+          "mean": 139.305,
+          "median": 139,
+          "standardDeviation": 35.17010058273931,
+          "min": 39,
+          "max": 238,
+          "percentiles": {
+            "p25": 114,
+            "p50": 139,
+            "p75": 167,
+            "p90": 184,
+            "p95": 194,
+            "p99": 218.02999999999997
+          },
+          "variance": 1236.9359749999999,
+          "coefficientOfVariation": 0.25246832908179395,
+          "range": 199,
+          "interquartileRange": 53
+        },
+        "hemorrhageStats": {
+          "triggerFrequency": 1.329,
+          "averageTurnsToTrigger": 4.478079331941545,
+          "triggerRate": 0.958,
+          "averageDamagePerTrigger": 20.893152746425883,
+          "totalHemorrhageDamage": 27767,
+          "maxTriggersInSingleCombat": 3,
+          "triggerDistribution": {}
+        },
+        "consistencyMetrics": {
+          "coefficientOfVariation": 0.25246832908179395,
+          "relativeStandardDeviation": 25.246832908179396,
+          "consistencyRating": "moderate",
+          "outlierCount": 43,
+          "outlierPercentage": 4.3,
+          "stabilityIndex": 0.7984233826759652
+        },
+        "sampleSize": 1000,
+        "analysisTimestamp": "2025-12-17T06:44:26.693Z"
+      },
+      "timestamp": "2025-12-17T06:44:26.693Z"
+    },
+    {
+      "characterName": "Level 5 Rogue",
+      "weaponName": "Sanguine Dagger",
+      "scenario": {
+        "rounds": 10,
+        "targetAC": 15,
+        "targetSize": "medium",
+        "advantageRate": 0,
+        "attacksPerRound": 1
+      },
+      "iterations": 1000,
+      "seed": 12345,
+      "analysis": {
+        "damageStats": {
+          "mean": 139.774,
+          "median": 139,
+          "standardDeviation": 35.19262598897669,
+          "min": 0,
+          "max": 250,
+          "percentiles": {
+            "p25": 115,
+            "p50": 139,
+            "p75": 165,
+            "p90": 186,
+            "p95": 197,
+            "p99": 217.01
+          },
+          "variance": 1238.5209239999974,
+          "coefficientOfVariation": 0.25178234856966736,
+          "range": 250,
+          "interquartileRange": 50
+        },
+        "hemorrhageStats": {
+          "triggerFrequency": 1.33,
+          "averageTurnsToTrigger": 4.420395421436004,
+          "triggerRate": 0.961,
+          "averageDamagePerTrigger": 20.981954887218045,
+          "totalHemorrhageDamage": 27906,
+          "maxTriggersInSingleCombat": 3,
+          "triggerDistribution": {}
+        },
+        "consistencyMetrics": {
+          "coefficientOfVariation": 0.25178234856966736,
+          "relativeStandardDeviation": 25.178234856966736,
+          "consistencyRating": "moderate",
+          "outlierCount": 47,
+          "outlierPercentage": 4.7,
+          "stabilityIndex": 0.7988609211039258
+        },
+        "sampleSize": 1000,
+        "analysisTimestamp": "2025-12-17T06:44:26.712Z"
+      },
+      "timestamp": "2025-12-17T06:44:26.712Z"
+    },
+    {
+      "characterName": "Level 5 Rogue",
+      "weaponName": "Baseline Rapier +1",
+      "scenario": {
+        "rounds": 10,
+        "targetAC": 15,
+        "targetSize": "medium",
+        "advantageRate": 0,
+        "attacksPerRound": 1
+      },
+      "iterations": 1000,
+      "seed": 12345,
+      "analysis": {
+        "damageStats": {
+          "mean": 124.394,
+          "median": 126,
+          "standardDeviation": 31.245235860847615,
+          "min": 30,
+          "max": 221,
+          "percentiles": {
+            "p25": 102,
+            "p50": 126,
+            "p75": 147,
+            "p90": 164,
+            "p95": 175,
+            "p99": 193.01
+          },
+          "variance": 976.2647639999979,
+          "coefficientOfVariation": 0.25117960561480146,
+          "range": 191,
+          "interquartileRange": 45
+        },
+        "hemorrhageStats": null,
+        "consistencyMetrics": {
+          "coefficientOfVariation": 0.25117960561480146,
+          "relativeStandardDeviation": 25.117960561480146,
+          "consistencyRating": "moderate",
+          "outlierCount": 38,
+          "outlierPercentage": 3.8,
+          "stabilityIndex": 0.7992457641671857
+        },
+        "sampleSize": 1000,
+        "analysisTimestamp": "2025-12-17T06:44:26.783Z"
+      },
+      "timestamp": "2025-12-17T06:44:26.783Z"
+    }
+  ],
+  "config": {
+    "reportName": "hemorrhage-comparison-flat",
+    "outputDirectory": "reports",
+    "formats": {
+      "csv": {
+        "enabled": true,
+        "types": [
+          "summary",
+          "raw",
+          "frequency"
+        ]
+      },
+      "json": {
+        "enabled": true,
+        "includeRawData": false
+      },
+      "console": {
+        "enabled": true,
+        "colorOutput": true
+      }
+    }
+  }
+}

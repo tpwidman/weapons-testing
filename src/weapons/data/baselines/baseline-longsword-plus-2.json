@@ -1,0 +1,9 @@
+{
+  "name": "Baseline Longsword +2",
+  "rarity": "rare",
+  "baseDamage": "1d8",
+  "damageType": "slashing",
+  "properties": ["versatile"],
+  "magicalBonus": 2,
+  "specialMechanics": []
+}

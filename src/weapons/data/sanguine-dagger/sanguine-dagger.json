@@ -1,0 +1,48 @@
+{
+  "name": "Sanguine Dagger",
+  "rarity": "rare",
+  "baseDamage": "1d4",
+  "damageType": "piercing",
+  "properties": ["finesse", "light", "thrown"],
+  "magicalBonus": 1,
+  "baseBleedDamageDieCount": 6,
+  "specialMechanics": [
+    {
+      "name": "Blood Sense",
+      "type": "detection",
+      "parameters": {
+        "range": 30,
+        "description": "You sense the presence of living creatures with blood within 30 feet, even through walls (direction only, not exact location)"
+      }
+    },
+    {
+      "name": "Hemorrhage",
+      "type": "bleed",
+      "parameters": {
+
+        "thresholds": {
+          "tiny": 12,
+          "small": 12,
+          "medium": 12,
+          "large": 16,
+          "huge": 20,
+          "gargantuan": 24
+        },
+
+        "saveEffect": {
+          "type": "constitution",
+          "dc": "8 + proficiency_bonus + ability_modifier",
+          "failureEffect": "slowed until end of next turn"
+        }
+      }
+    },
+    {
+      "name": "Counter Reset",
+      "type": "reset",
+      "parameters": {
+        "trigger": "no_attack_on_turn",
+        "description": "If you don't attack the tracked creature on your turn, the counter drops to 0. You can only track one creature at a time."
+      }
+    }
+  ]
+}

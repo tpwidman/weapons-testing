@@ -1,0 +1,9 @@
+{
+  "name": "Baseline Rapier +2",
+  "rarity": "rare",
+  "baseDamage": "1d8",
+  "damageType": "piercing",
+  "properties": ["finesse"],
+  "magicalBonus": 2,
+  "specialMechanics": []
+}

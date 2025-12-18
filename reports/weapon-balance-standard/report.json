@@ -1,0 +1,185 @@
+{
+  "metadata": {
+    "reportName": "weapon-balance-standard",
+    "generatedAt": "2025-12-17T06:44:26.933Z",
+    "totalSimulations": 3,
+    "totalIterations": 3000
+  },
+  "results": [
+    {
+      "characterName": "Level 5 Rogue",
+      "weaponName": "Sanguine Dagger (4d6)",
+      "scenario": {
+        "rounds": 10,
+        "targetAC": 15,
+        "targetSize": "medium",
+        "advantageRate": 0.3,
+        "attacksPerRound": 1
+      },
+      "iterations": 1000,
+      "seed": 12345,
+      "analysis": {
+        "damageStats": {
+          "mean": 191.287,
+          "median": 194,
+          "standardDeviation": 47.960782218391735,
+          "min": 38,
+          "max": 314,
+          "percentiles": {
+            "p25": 157,
+            "p50": 194,
+            "p75": 223,
+            "p90": 252.10000000000002,
+            "p95": 270.04999999999995,
+            "p99": 297.01
+          },
+          "variance": 2300.236631000001,
+          "coefficientOfVariation": 0.25072682523324497,
+          "range": 276,
+          "interquartileRange": 66
+        },
+        "hemorrhageStats": {
+          "triggerFrequency": 1.805,
+          "averageTurnsToTrigger": 3.6204453441295548,
+          "triggerRate": 0.988,
+          "averageDamagePerTrigger": 20.887534626038782,
+          "totalHemorrhageDamage": 37702,
+          "maxTriggersInSingleCombat": 4,
+          "triggerDistribution": {}
+        },
+        "consistencyMetrics": {
+          "coefficientOfVariation": 0.25072682523324497,
+          "relativeStandardDeviation": 25.072682523324495,
+          "consistencyRating": "moderate",
+          "outlierCount": 50,
+          "outlierPercentage": 5,
+          "stabilityIndex": 0.799535102170302
+        },
+        "sampleSize": 1000,
+        "analysisTimestamp": "2025-12-17T06:44:26.898Z"
+      },
+      "timestamp": "2025-12-17T06:44:26.898Z"
+    },
+    {
+      "characterName": "Level 5 Rogue",
+      "weaponName": "Sanguine Dagger",
+      "scenario": {
+        "rounds": 10,
+        "targetAC": 15,
+        "targetSize": "medium",
+        "advantageRate": 0.3,
+        "attacksPerRound": 1
+      },
+      "iterations": 1000,
+      "seed": 12345,
+      "analysis": {
+        "damageStats": {
+          "mean": 192.034,
+          "median": 193,
+          "standardDeviation": 45.687863202386694,
+          "min": 56,
+          "max": 330,
+          "percentiles": {
+            "p25": 161,
+            "p50": 193,
+            "p75": 222,
+            "p90": 252,
+            "p95": 267.04999999999995,
+            "p99": 297.02
+          },
+          "variance": 2087.3808440000003,
+          "coefficientOfVariation": 0.23791548997774714,
+          "range": 274,
+          "interquartileRange": 61
+        },
+        "hemorrhageStats": {
+          "triggerFrequency": 1.8,
+          "averageTurnsToTrigger": 3.6740442655935612,
+          "triggerRate": 0.994,
+          "averageDamagePerTrigger": 21.020555555555557,
+          "totalHemorrhageDamage": 37837,
+          "maxTriggersInSingleCombat": 4,
+          "triggerDistribution": {}
+        },
+        "consistencyMetrics": {
+          "coefficientOfVariation": 0.23791548997774714,
+          "relativeStandardDeviation": 23.791548997774715,
+          "consistencyRating": "moderate",
+          "outlierCount": 45,
+          "outlierPercentage": 4.5,
+          "stabilityIndex": 0.8078095864346734
+        },
+        "sampleSize": 1000,
+        "analysisTimestamp": "2025-12-17T06:44:26.918Z"
+      },
+      "timestamp": "2025-12-17T06:44:26.918Z"
+    },
+    {
+      "characterName": "Level 5 Rogue",
+      "weaponName": "Baseline Rapier +1",
+      "scenario": {
+        "rounds": 10,
+        "targetAC": 15,
+        "targetSize": "medium",
+        "advantageRate": 0.3,
+        "attacksPerRound": 1
+      },
+      "iterations": 1000,
+      "seed": 12345,
+      "analysis": {
+        "damageStats": {
+          "mean": 171.014,
+          "median": 171,
+          "standardDeviation": 40.66551123495189,
+          "min": 40,
+          "max": 306,
+          "percentiles": {
+            "p25": 142,
+            "p50": 171,
+            "p75": 199,
+            "p90": 226.10000000000002,
+            "p95": 238.04999999999995,
+            "p99": 263.02
+          },
+          "variance": 1653.6838039999986,
+          "coefficientOfVariation": 0.23779053899067848,
+          "range": 266,
+          "interquartileRange": 57
+        },
+        "hemorrhageStats": null,
+        "consistencyMetrics": {
+          "coefficientOfVariation": 0.23779053899067848,
+          "relativeStandardDeviation": 23.779053899067847,
+          "consistencyRating": "moderate",
+          "outlierCount": 40,
+          "outlierPercentage": 4,
+          "stabilityIndex": 0.8078911322229219
+        },
+        "sampleSize": 1000,
+        "analysisTimestamp": "2025-12-17T06:44:26.931Z"
+      },
+      "timestamp": "2025-12-17T06:44:26.931Z"
+    }
+  ],
+  "config": {
+    "reportName": "weapon-balance-standard",
+    "outputDirectory": "reports",
+    "formats": {
+      "csv": {
+        "enabled": true,
+        "types": [
+          "summary",
+          "frequency"
+        ]
+      },
+      "json": {
+        "enabled": true,
+        "includeRawData": false
+      },
+      "console": {
+        "enabled": true,
+        "colorOutput": true
+      }
+    }
+  }
+}

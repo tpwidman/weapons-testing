@@ -1,0 +1,4 @@
+Character,Weapon,Scenario_Rounds,Scenario_TargetAC,Scenario_TargetSize,Scenario_AdvantageRate,Iterations,Mean_Damage,Median_Damage,StdDev_Damage,Min_Damage,Max_Damage,P25_Damage,P75_Damage,P90_Damage,P95_Damage,Coefficient_of_Variation,Consistency_Rating,Stability_Index,Hemorrhage_Trigger_Frequency,Hemorrhage_Trigger_Rate,Hemorrhage_Avg_Damage_Per_Trigger,Balance_Rating,Damage_Percentage_Difference
+Level 5 Rogue,Sanguine Dagger (4d6),10,15,medium,0.3,1000,191.29,194.00,47.96,38,314,157.00,223.00,252.10,270.05,0.2507,moderate,0.800,1.8050,0.9880,20.89,,
+Level 5 Rogue,Sanguine Dagger,10,15,medium,0.3,1000,192.03,193.00,45.69,56,330,161.00,222.00,252.00,267.05,0.2379,moderate,0.808,1.8000,0.9940,21.02,,
+Level 5 Rogue,Baseline Rapier +1,10,15,medium,0.3,1000,171.01,171.00,40.67,40,306,142.00,199.00,226.10,238.05,0.2378,moderate,0.808,0,0,0,,

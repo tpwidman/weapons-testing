@@ -1,0 +1,9 @@
+{
+  "name": "Baseline Scimitar +2",
+  "rarity": "rare",
+  "baseDamage": "1d6",
+  "damageType": "slashing",
+  "properties": ["finesse", "light"],
+  "magicalBonus": 2,
+  "specialMechanics": []
+}
